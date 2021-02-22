@@ -85,6 +85,7 @@
         "@babel/preset-env": "^7.12.13",
         "autoprefixer": "^8.1.0",
         "browser-sync": "^2.26.14",
+        "changelog-parser": "^2.8.0",
         "del": "^1.1.1",
         "eslint": "^7.15.0",
         "eslint-plugin-compat": "^3.9.0",

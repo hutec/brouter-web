@@ -452,6 +452,11 @@
             },
             urlHash
         );
+
+        BR.WhatsNew.init();
+        if (BR.WhatsNew.hasNewVersions()) {
+            BR.WhatsNew.display(true);
+        }
     }
 
     i18next.on('languageChanged', function (detectedLanguage) {
