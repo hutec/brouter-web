@@ -35,6 +35,7 @@
             deleteRouteButton,
             pois,
             circlego,
+            overpass,
             urlHash;
 
         // By default bootstrap-select use glyphicons
@@ -261,6 +262,9 @@
         });
 
         pois = new BR.PoiMarkers(routing);
+
+        overpass = new BR.Overpass();
+        map.addControl(overpass);
 
         exportRoute = new BR.Export(router, pois);
 
