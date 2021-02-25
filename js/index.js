@@ -251,6 +251,7 @@
         trackAnalysis = new BR.TrackAnalysis(map, {
             requestUpdate: requestUpdate,
         });
+        overpass = new BR.OverpassTab(map);
 
         routingPathQuality = new BR.RoutingPathQuality(map, layersControl);
 
@@ -262,9 +263,6 @@
         });
 
         pois = new BR.PoiMarkers(routing);
-
-        overpass = new BR.Overpass();
-        map.addControl(overpass);
 
         exportRoute = new BR.Export(router, pois);
 

@@ -1,33 +1,23 @@
-BR.Overpass = L.Control.extend({
+BR.OverpassTab = L.Class.extend({
     options: {
         overpassBaseUrl: BR.conf.overpassBaseUrl || 'https://overpass-api.de/api/interpreter?data=',
     },
 
-    initialize: function (options) {
+    initialize: function (map, options) {
         L.setOptions(this, options);
+        this.map = map;
+        console.log(this.map.getBounds());
+        this.textArea = L.DomUtil.get('overpass-query');
+        this.textArea.value = '"amenity"="drinking_water"';
+
+        L.DomUtil.get('submit-overpass').onclick = L.bind(this.execute, this);
+        L.DomUtil.get('clear-overpass').onclick = L.bind(this.clear, this);
     },
 
-    onAdd: function (map) {
-        var self = this;
-        this.map = map;
-        this.markersLayer = L.layerGroup([]).addTo(map);
-
-        this.drawButton = L.easyButton({
-            states: [
-                {
-                    stateName: 'activate-overpass',
-                    icon: 'fa-snowflake-o active',
-                },
-                {
-                    stateName: 'deactivate-overpass',
-                    icon: 'fa-snowflake-o',
-                },
-            ],
-        }).addTo(map);
-
-        const bounds = map.getBounds();
+    execute: function (evt) {
+        const bounds = this.map.getBounds();
         const boundsString = `(${bounds.getSouth()},${bounds.getWest()},${bounds.getNorth()},${bounds.getEast()})`;
-        const part = '"amenity"="drinking_water"';
+        const part = this.textArea.value; // '"amenity"="drinking_water"';
         const query = `[out:json][timeout:25];(node[${part}]${boundsString};way[${part}]${boundsString};relation[${part}]${boundsString};);out;>;out skel qt;`;
 
         var url = this.options.overpassBaseUrl + query;
@@ -40,18 +30,15 @@ BR.Overpass = L.Control.extend({
                     //console.log(osmJson);
                     var geoJson = osmtogeojson(osmJson);
                     console.log(geoJson);
-                    this._setBoundary(geoJson);
+                    this.displayResults(geoJson);
                 }
             }, this)
         );
 
         var url = this.options.overpassBaseUrl + query;
-
-        var container = new L.DomUtil.create('div');
-        return container;
     },
 
-    _setBoundary: function (geoJson) {
+    displayResults: function (geoJson) {
         // var boundaryLine = turf.polygonToLine(geoJson.features[0]);
         function onEachFeature(feature, layer) {
             // does this feature have a property named popupContent?
@@ -64,6 +51,8 @@ BR.Overpass = L.Control.extend({
             onEachFeature: onEachFeature,
         }).addTo(this.map);
     },
-});
 
-BR.Overpass.include(L.Evented.prototype);
+    clear: function (evt) {
+        this.map.removeLayer(this.overpassLayer);
+    },
+});
