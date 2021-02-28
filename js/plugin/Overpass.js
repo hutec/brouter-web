@@ -18,7 +18,7 @@ BR.OverpassTab = L.Class.extend({
         const bounds = this.map.getBounds();
         const boundsString = `(${bounds.getSouth()},${bounds.getWest()},${bounds.getNorth()},${bounds.getEast()})`;
         const part = this.textArea.value; // '"amenity"="drinking_water"';
-        const query = `[out:json][timeout:25];(node[${part}]${boundsString};way[${part}]${boundsString};relation[${part}]${boundsString};);out;>;out skel qt;`;
+        const query = `[out:json][timeout:5];(node[${part}]${boundsString};way[${part}]${boundsString};relation[${part}]${boundsString};);out;>;out skel qt;`;
 
         var url = this.options.overpassBaseUrl + query;
 
