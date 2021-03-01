@@ -34,16 +34,13 @@ BR.OverpassTab = L.Class.extend({
                 }
             }, this)
         );
-
-        var url = this.options.overpassBaseUrl + query;
     },
 
     displayResults: function (geoJson) {
-        // var boundaryLine = turf.polygonToLine(geoJson.features[0]);
         function onEachFeature(feature, layer) {
-            // does this feature have a property named popupContent?
             if (feature.properties) {
-                layer.bindPopup(feature.properties.name);
+                const content = popupContent(feature.properties);
+                layer.bindPopup(content);
             }
         }
 
@@ -56,3 +53,16 @@ BR.OverpassTab = L.Class.extend({
         this.map.removeLayer(this.overpassLayer);
     },
 });
+
+const popupContent = (properties) => {
+    var ret = '';
+    for (const [key, value] of Object.entries(properties)) {
+        if (key === 'id') {
+            const osmURL = 'https://www.openstreetmap.org/' + value;
+            ret += '<a href="' + osmURL + '">' + value + '</a>';
+        } else {
+            ret += '<p><b>' + key + '</b>: ' + value + '</p>';
+        }
+    }
+    return ret;
+};
