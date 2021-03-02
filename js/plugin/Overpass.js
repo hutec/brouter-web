@@ -59,9 +59,11 @@ const popupContent = (properties) => {
     for (const [key, value] of Object.entries(properties)) {
         if (key === 'id') {
             const osmURL = 'https://www.openstreetmap.org/' + value;
-            ret += '<a href="' + osmURL + '">' + value + '</a>';
+            ret += `<a href="${osmURL}">${value}</a>`;
+        } else if (key === 'website') {
+            ret += `<span><b>${key}</b>: <a href="${value}">${value}</a></span>`;
         } else {
-            ret += '<p><b>' + key + '</b>: ' + value + '</p>';
+            ret += `<p><b>${key}</b>: ${value}</p>`;
         }
     }
     return ret;
