@@ -44,8 +44,18 @@ BR.OverpassTab = L.Class.extend({
             }
         }
 
+        var myStyle = {
+            color: '#ff7800',
+            weight: 5,
+            opacity: 1,
+        };
+
         this.overpassLayer = L.geoJson(geoJson.features, {
             onEachFeature: onEachFeature,
+            style: myStyle,
+            pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng, myStyle);
+            },
         }).addTo(this.map);
     },
 
