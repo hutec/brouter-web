@@ -8,6 +8,7 @@ BR.OverpassTab = L.Class.extend({
         this.map = map;
         console.log(this.map.getBounds());
         this.textArea = L.DomUtil.get('overpass-query');
+        this.colorPicker = L.DomUtil.get('overpass-color');
         this.textArea.value = '"amenity"="drinking_water"';
 
         L.DomUtil.get('submit-overpass').onclick = L.bind(this.execute, this);
@@ -45,7 +46,7 @@ BR.OverpassTab = L.Class.extend({
         }
 
         var myStyle = {
-            color: '#ff7800',
+            color: this.colorPicker.value,
             weight: 5,
             opacity: 1,
         };
