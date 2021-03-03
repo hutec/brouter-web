@@ -9,6 +9,7 @@ BR.OverpassTab = L.Class.extend({
         console.log(this.map.getBounds());
         this.textArea = L.DomUtil.get('overpass-query');
         this.colorPicker = L.DomUtil.get('overpass-color');
+        this.layerList = [];
         this.textArea.value = '"amenity"="drinking_water"';
 
         L.DomUtil.get('submit-overpass').onclick = L.bind(this.execute, this);
@@ -58,10 +59,11 @@ BR.OverpassTab = L.Class.extend({
                 return L.circleMarker(latlng, myStyle);
             },
         }).addTo(this.map);
+        this.layerList.push(this.overpassLayer);
     },
 
     clear: function (evt) {
-        this.map.removeLayer(this.overpassLayer);
+        this.layerList.forEach((layer) => this.map.removeLayer(layer));
     },
 });
 
