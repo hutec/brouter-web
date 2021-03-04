@@ -789,6 +789,9 @@
                             ><i class="fa fa-pie-chart"></i
                         ></a>
                     </li>
+                    <li>
+                        <a href="#tab_overpass" role="tab" title="Overpass Query"><i class="fa fa-snowflake-o"></i></a>
+                    </li>
                 </ul>
             </div>
 
@@ -987,6 +990,32 @@
                                 <span class="leaflet-sidebar-close"><i class="fa fa-caret-right"></i></span>
                             </h1>
                             <div id="track_statistics" class="flexcolumn flexgrow"></div>
+                        </div>
+
+                        <div class="leaflet-sidebar-pane" id="tab_overpass">
+                            <h1 class="leaflet-sidebar-header">
+                                <span>Overpass</span>
+                                <span class="leaflet-sidebar-close"><i class="fa fa-caret-right"></i></span>
+                            </h1>
+                            <div id="overpass" class="flexcolumn flexgrow">
+                                <textarea
+                                    class="form-control flexgrow"
+                                    id="overpass-query"
+                                    spellcheck="false"
+                                    wrap="off"
+                                    placeholder="Write Overpass Query here"
+                                ></textarea>
+
+                                <input type="color" id="overpass-color" name="overpass-color" />
+                                <button id="submit-overpass" type="button" class="btn btn-primary btn-sm">
+                                    <span class="fa fa-map-marker"></span>
+                                    <span>Apply</span>
+                                </button>
+                                <button id="clear-overpass" type="button" class="btn btn-secondary btn-sm">
+                                    <span class="fa fa-eraser"></span>
+                                    <span>Clear</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

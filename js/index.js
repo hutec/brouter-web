@@ -35,6 +35,7 @@
             deleteRouteButton,
             pois,
             circlego,
+            overpass,
             urlHash;
 
         // By default bootstrap-select use glyphicons
@@ -250,6 +251,7 @@
         trackAnalysis = new BR.TrackAnalysis(map, {
             requestUpdate: requestUpdate,
         });
+        overpass = new BR.OverpassTab(map);
 
         routingPathQuality = new BR.RoutingPathQuality(map, layersControl);
 
