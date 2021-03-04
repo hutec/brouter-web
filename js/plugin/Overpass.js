@@ -9,6 +9,7 @@ BR.OverpassTab = L.Class.extend({
         console.log(this.map.getBounds());
         this.textArea = L.DomUtil.get('overpass-query');
         this.colorPicker = L.DomUtil.get('overpass-color');
+        this.layerListDiv = L.DomUtil.get('overpass-layers');
         this.layerList = [];
         this.textArea.value = '"amenity"="drinking_water"';
 
@@ -32,13 +33,13 @@ BR.OverpassTab = L.Class.extend({
                     //console.log(osmJson);
                     var geoJson = osmtogeojson(osmJson);
                     console.log(geoJson);
-                    this.displayResults(geoJson);
+                    this.displayResults(geoJson, part);
                 }
             }, this)
         );
     },
 
-    displayResults: function (geoJson) {
+    displayResults: function (geoJson, query) {
         function onEachFeature(feature, layer) {
             if (feature.properties) {
                 const content = popupContent(feature.properties);
@@ -52,14 +53,25 @@ BR.OverpassTab = L.Class.extend({
             opacity: 1,
         };
 
-        this.overpassLayer = L.geoJson(geoJson.features, {
+        var overpassLayer = L.geoJson(geoJson.features, {
             onEachFeature: onEachFeature,
             style: myStyle,
             pointToLayer: function (feature, latlng) {
                 return L.circleMarker(latlng, myStyle);
             },
         }).addTo(this.map);
-        this.layerList.push(this.overpassLayer);
+
+        this.layerList.push(overpassLayer);
+        var removeDiv = $('<div>');
+        var removeButton = $('<button />', {
+            text: query,
+            click: L.bind(function () {
+                this.map.removeLayer(overpassLayer);
+                $(removeDiv).remove();
+            }, this),
+        });
+        $(removeDiv).append(removeButton);
+        $(this.layerListDiv).append(removeDiv);
     },
 
     clear: function (evt) {
